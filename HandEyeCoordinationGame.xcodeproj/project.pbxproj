@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C24321E825CF8B4E00191307 /* NumbersGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumbersGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C24321E825CF8B4E00191307 /* HandEyeCoordinationGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandEyeCoordinationGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C24321EB25CF8B4E00191307 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C24321ED25CF8B4E00191307 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		C24321EF25CF8B4E00191307 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -44,7 +44,7 @@
 		C24321DF25CF8B4E00191307 = {
 			isa = PBXGroup;
 			children = (
-				C24321EA25CF8B4E00191307 /* NumbersGame */,
+				C24321EA25CF8B4E00191307 /* HandEyeCoordinationGame */,
 				C24321E925CF8B4E00191307 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,12 +52,12 @@
 		C24321E925CF8B4E00191307 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C24321E825CF8B4E00191307 /* NumbersGame.app */,
+				C24321E825CF8B4E00191307 /* HandEyeCoordinationGame.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C24321EA25CF8B4E00191307 /* NumbersGame */ = {
+		C24321EA25CF8B4E00191307 /* HandEyeCoordinationGame */ = {
 			isa = PBXGroup;
 			children = (
 				C24321EB25CF8B4E00191307 /* AppDelegate.swift */,
@@ -70,15 +70,15 @@
 				C24321FA25CF8B5000191307 /* LaunchScreen.storyboard */,
 				C24321FD25CF8B5000191307 /* Info.plist */,
 			);
-			path = NumbersGame;
+			path = HandEyeCoordinationGame;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C24321E725CF8B4E00191307 /* NumbersGame */ = {
+		C24321E725CF8B4E00191307 /* HandEyeCoordinationGame */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C243220025CF8B5000191307 /* Build configuration list for PBXNativeTarget "NumbersGame" */;
+			buildConfigurationList = C243220025CF8B5000191307 /* Build configuration list for PBXNativeTarget "HandEyeCoordinationGame" */;
 			buildPhases = (
 				C24321E425CF8B4E00191307 /* Sources */,
 				C24321E525CF8B4E00191307 /* Frameworks */,
@@ -88,9 +88,9 @@
 			);
 			dependencies = (
 			);
-			name = NumbersGame;
+			name = HandEyeCoordinationGame;
 			productName = NumbersGame;
-			productReference = C24321E825CF8B4E00191307 /* NumbersGame.app */;
+			productReference = C24321E825CF8B4E00191307 /* HandEyeCoordinationGame.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -108,7 +108,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C24321E325CF8B4E00191307 /* Build configuration list for PBXProject "NumbersGame" */;
+			buildConfigurationList = C24321E325CF8B4E00191307 /* Build configuration list for PBXProject "HandEyeCoordinationGame" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -121,7 +121,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C24321E725CF8B4E00191307 /* NumbersGame */,
+				C24321E725CF8B4E00191307 /* HandEyeCoordinationGame */,
 			);
 		};
 /* End PBXProject section */
@@ -327,7 +327,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C24321E325CF8B4E00191307 /* Build configuration list for PBXProject "NumbersGame" */ = {
+		C24321E325CF8B4E00191307 /* Build configuration list for PBXProject "HandEyeCoordinationGame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C24321FE25CF8B5000191307 /* Debug */,
@@ -336,7 +336,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C243220025CF8B5000191307 /* Build configuration list for PBXNativeTarget "NumbersGame" */ = {
+		C243220025CF8B5000191307 /* Build configuration list for PBXNativeTarget "HandEyeCoordinationGame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C243220125CF8B5000191307 /* Debug */,
