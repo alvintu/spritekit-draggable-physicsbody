@@ -11,74 +11,71 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
     
-//    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
     private var currentNode: SKNode?
     
-    var radiusOfMainPlayer: CGFloat = 40
+    var count = 0
+    var gameScoreLabel = SKLabelNode()
+    
+    var radiusOfMainPlayer: CGFloat = 10
     var lastRecordedPosition: CGPoint = CGPoint()
-    var mainPlayer : SKShapeNode = SKShapeNode()
+    var mainPlayer : SKShapeNode?
     
     var blueNode = SKSpriteNode(
         color: .blue,
-        size: CGSize(width: 100, height: 100)
+        size: CGSize(width: 25, height: 25)
     )
-    var scale: CGFloat = 0.01
+    var scale: CGFloat = 1.0
     
-    let mainBall: UInt32 = 0x1 << 1
-    let otherColors: UInt32 = 0x1 << 0
+    let mainBall: UInt32 = 0x1 << 0
+    let otherBalls: UInt32 = 0x1 << 1
     
     override func didMove(to view: SKView) {
         scene?.backgroundColor = .gray
         physicsWorld.contactDelegate = self
-        let randomNodePosition = GKRandomDistribution(lowestValue: 0, highestValue: 400)
-            let position = CGFloat(randomNodePosition.nextInt())
-
-        
-        let node = SKSpriteNode(
-            color: .red,
-            size: CGSize(width: 100, height: 100)
-        )
-        
-        node.position = CGPoint(x:0 ,y:0)
-        node.name = "draggable"
-        self.addChild(node)
         addRandomBlueNode()
-        
-        
-        
-        
-         mainPlayer = SKShapeNode(circleOfRadius: radiusOfMainPlayer)
-        mainPlayer.name = "draggable"
-        mainPlayer.position = CGPoint(x: position, y: self.frame.size.height/2)
-        mainPlayer.physicsBody = SKPhysicsBody(rectangleOf: blueNode.size)
-        mainPlayer.physicsBody?.isDynamic = true
-        mainPlayer.physicsBody?.affectedByGravity = false
-        mainPlayer.physicsBody?.categoryBitMask = mainBall
-        mainPlayer.physicsBody?.contactTestBitMask = otherColors
-        mainPlayer.physicsBody?.collisionBitMask = 0
-        mainPlayer.physicsBody?.usesPreciseCollisionDetection = true
+        addMainPlayer()
+        gameScoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        gameScoreLabel.text = "Score: \(count)"
+        gameScoreLabel.fontSize = 30
+        gameScoreLabel.position = CGPoint(x:frame.midX, y: frame.maxY - 50.0)
+       self.addChild(gameScoreLabel)
+    }
+    
+    func addMainPlayer() {
+        mainPlayer = SKShapeNode(circleOfRadius: radiusOfMainPlayer)
+        mainPlayer!.name = "draggable"
+        mainPlayer!.position = CGPoint(x:frame.midX, y: frame.midY)
+        mainPlayer!.physicsBody = SKPhysicsBody(rectangleOf: blueNode.size)
+        mainPlayer!.physicsBody?.isDynamic = true
+        mainPlayer!.physicsBody?.affectedByGravity = false
+        mainPlayer!.physicsBody?.categoryBitMask = mainBall
+        mainPlayer!.physicsBody?.contactTestBitMask = otherBalls
+        mainPlayer!.physicsBody?.collisionBitMask = 0
+        mainPlayer!.physicsBody?.usesPreciseCollisionDetection = true
 
-        mainPlayer.fillColor = SKColor.red
-        mainPlayer.strokeColor = SKColor.red
-
-        mainPlayer.position = CGPoint(x:200 ,y:200)
-        self.addChild(mainPlayer)
+        mainPlayer!.fillColor = SKColor.red
+        mainPlayer!.strokeColor = SKColor.red
+        self.addChild(mainPlayer!)
 
     }
     
     func addRandomBlueNode() {
-        let randomNodePosition = GKRandomDistribution(lowestValue: 0, highestValue: 400)
-        let position = CGFloat(randomNodePosition.nextInt())
-            blueNode.position = CGPoint(x: position, y: position)
+        
+        let width = scene!.frame.width
+        let height = scene!.frame.height
+        let randomNodeXPosition = GKRandomDistribution(lowestValue: Int(-width)/2, highestValue: Int(width)/2)
+        let randomNodeYPosition = GKRandomDistribution(lowestValue: Int(-height)/2, highestValue: Int(height)/2)
+        let positionX = CGFloat(randomNodeXPosition.nextInt())
+        let positionY = CGFloat(randomNodeYPosition.nextInt())
+            blueNode.position = CGPoint(x: positionX, y: positionY)
+        print(blueNode.position)
             blueNode.physicsBody = SKPhysicsBody(rectangleOf: blueNode.size)
             blueNode.physicsBody?.isDynamic = true
             blueNode.physicsBody?.affectedByGravity = false
-            blueNode.physicsBody?.categoryBitMask = otherColors
+            blueNode.physicsBody?.categoryBitMask = otherBalls
             blueNode.physicsBody?.contactTestBitMask = mainBall
             blueNode.physicsBody?.collisionBitMask = 0
             blueNode.physicsBody?.usesPreciseCollisionDetection = true
-            blueNode.name = "draggable"
             self.addChild(blueNode)
     }
     
@@ -89,7 +86,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         var secondBody: SKPhysicsBody
         
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            print("if")
             firstBody = contact.bodyA
             secondBody = contact.bodyB
         } else {
@@ -97,45 +93,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             secondBody = contact.bodyA
         }
         
-        if (firstBody.categoryBitMask & otherColors) != 0 && (secondBody.categoryBitMask & mainBall) != 0 {
-            print("collision")
-            print("hello")
+        if (firstBody.categoryBitMask & mainBall) != 0 && (secondBody.categoryBitMask & otherBalls) != 0 {
+            mainPlayerDidCollideWithOtherBall(mainPlayer:firstBody.node as! SKShapeNode, otherBall: secondBody.node as! SKSpriteNode)
             
-            scale += 1.05
-            mainPlayer.setScale(scale)
-            blueNode.removeFromParent()
-            addRandomBlueNode()
-            
-
-
-            
+                    
     }
     }
     
+    func mainPlayerDidCollideWithOtherBall(mainPlayer:SKShapeNode, otherBall: SKSpriteNode) {
+    
+        scale += 1.0
+        print(scale)
+        
+        
+        mainPlayer.setScale(scale)
+        otherBall.removeFromParent()
+        if scale < 60 {
+            count += 1
+            gameScoreLabel.text = "Score: \(count)"
+            addRandomBlueNode()
+
+        }
+    }
     
     func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
+        if let n = self.mainPlayer?.copy() as! SKShapeNode? {
+//            n.position = pos
+//            n.strokeColor = SKColor.green
+//            self.addChild(n)
         }
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
+        if let n = self.mainPlayer?.copy() as! SKShapeNode? {
+//            n.position = pos
+//            n.strokeColor = SKColor.blue
+//            self.addChild(n)
         }
     }
     
     
     func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
