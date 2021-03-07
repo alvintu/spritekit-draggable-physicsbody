@@ -20,10 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var lastRecordedPosition: CGPoint = CGPoint()
     var mainPlayer : SKShapeNode?
     
-    var blueNode = SKSpriteNode(
-        color: .blue,
-        size: CGSize(width: 25, height: 25)
-    )
+
     var scale: CGFloat = 1.0
     
     let mainBall: UInt32 = 0x1 << 0
@@ -32,20 +29,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     override func didMove(to view: SKView) {
         scene?.backgroundColor = .gray
         physicsWorld.contactDelegate = self
-        addRandomBlueNode()
         addMainPlayer()
         gameScoreLabel = SKLabelNode(fontNamed: "Chalkduster")
-        gameScoreLabel.text = "Score: \(count)"
+        gameScoreLabel.text = "\(count)"
         gameScoreLabel.fontSize = 30
-        gameScoreLabel.position = CGPoint(x:frame.midX, y: frame.maxY - 50.0)
+        gameScoreLabel.position = CGPoint(x:frame.midX, y: frame.midY)
+        gameScoreLabel.isUserInteractionEnabled = false
        self.addChild(gameScoreLabel)
+        
+
+        add(blueNodesAmount: 400)
+        
     }
     
     func addMainPlayer() {
         mainPlayer = SKShapeNode(circleOfRadius: radiusOfMainPlayer)
         mainPlayer!.name = "draggable"
         mainPlayer!.position = CGPoint(x:frame.midX, y: frame.midY)
-        mainPlayer!.physicsBody = SKPhysicsBody(rectangleOf: blueNode.size)
+        mainPlayer!.physicsBody = SKPhysicsBody(rectangleOf: mainPlayer!.frame.size)
         mainPlayer!.physicsBody?.isDynamic = true
         mainPlayer!.physicsBody?.affectedByGravity = false
         mainPlayer!.physicsBody?.categoryBitMask = mainBall
@@ -58,9 +59,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.addChild(mainPlayer!)
 
     }
+    func add(blueNodesAmount:Int) {
+        for _ in 0...blueNodesAmount {
+            addRandomBlueNode()
+        }
+    }
     
-    func addRandomBlueNode() {
-        
+    fileprivate func addRandomBlueNode() {
+        let blueNode = SKSpriteNode(
+            color: .blue,
+            size: CGSize(width: 25, height: 25)
+        )
         let width = scene!.frame.width
         let height = scene!.frame.height
         let randomNodeXPosition = GKRandomDistribution(lowestValue: Int(-width)/2, highestValue: Int(width)/2)
@@ -102,15 +111,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func mainPlayerDidCollideWithOtherBall(mainPlayer:SKShapeNode, otherBall: SKSpriteNode) {
     
-        scale += 1.0
-        print(scale)
+//        scale += 1.0
+//        print(scale)
         
         
         mainPlayer.setScale(scale)
         otherBall.removeFromParent()
         if scale < 60 {
             count += 1
-            gameScoreLabel.text = "Score: \(count)"
+            gameScoreLabel.text = "\(count)"
             addRandomBlueNode()
 
         }
