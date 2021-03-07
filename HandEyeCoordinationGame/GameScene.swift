@@ -29,6 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     override func didMove(to view: SKView) {
         scene?.backgroundColor = .gray
         physicsWorld.contactDelegate = self
+        view.showsFPS = false
+        view.showsNodeCount = false
         addMainPlayer()
         gameScoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         gameScoreLabel.text = "\(count)"
